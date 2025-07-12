@@ -10,9 +10,20 @@ const PORT  = 3000;
 app.get('/hello', adminAuth,
 //  res.send("Hello from the /hello route!");
 (req,res,prev) => {
-     res.send("HEllo second world. this line is executed after the first middleware")
+    throw new Error("sadfasf");
     prev();
 })
+
+// Error handling middleware
+
+app.use("/hello",(err,req,res,next) => {
+    if(err){
+        console.error("An error occurred:", err);
+        res.status(500).send("Something went wrong!");
+    }
+})
+
+
 
 app.use("/user", userAuth, (req,res) => {
     console.log('User middleware is executed');
